@@ -10,12 +10,23 @@ let mongodInstance = null;
 async function connectDB() {
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/lifelink_pro';
 
+  // Connection event listeners
+  mongoose.connection.on('error', (err) => {
+    console.error('❌ MongoDB Connection Error:', err.message);
+  });
+  mongoose.connection.on('disconnected', () => {
+    console.warn('⚠️ MongoDB disconnected.');
+  });
+  mongoose.connection.on('connected', () => {
+    console.log('✅ MongoDB connected successfully.');
+  });
+
   try {
     console.log(`🔌 Attempting MongoDB connection to: ${uri.replace(/\/\/([^:]+):([^@]+)@/, '//$1:****@')}`);
     await mongoose.connect(uri, {
       serverSelectionTimeoutMS: process.env.MONGODB_URI ? 15000 : 3000
     });
-    console.log(`✅ Connected to MongoDB at: ${uri}`);
+    console.log(`✅ Connected to MongoDB at: ${uri.replace(/\/\/([^:]+):([^@]+)@/, '//$1:****@')}`);
   } catch (primaryError) {
     console.warn(`⚠️ Direct MongoDB connection failed (${primaryError.message}).`);
     console.log(`🚀 Starting embedded MongoDB engine (MongoMemoryServer)...`);

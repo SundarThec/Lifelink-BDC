@@ -64,6 +64,53 @@ app.get('/tiles/fallback.png', (req, res) => {
 });
 app.get('/tiles/:z/:x/:y.png', createTileMiddleware(TILE_DIR));
 
+// Health Check Endpoints
+app.get('/api/health', (req, res) => {
+  const dbStatus = mongoose.connection.readyState;
+  const dbStates = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
+  res.status(dbStatus === 1 ? 200 : 503).json({
+    status: dbStatus === 1 ? 'healthy' : 'degraded',
+    database: {
+      connected: dbStatus === 1,
+      state: dbStates[dbStatus] || 'unknown',
+      hasUriConfigured: Boolean(process.env.MONGODB_URI)
+    },
+    service: 'LifeLink - A Blood Donation Community',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
+app.get('/api/v1/health', (req, res) => {
+  const dbStatus = mongoose.connection.readyState;
+  const dbStates = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
+  res.status(dbStatus === 1 ? 200 : 503).json({
+    status: dbStatus === 1 ? 'healthy' : 'degraded',
+    version: '1.1.0',
+    database: {
+      connected: dbStatus === 1,
+      state: dbStates[dbStatus] || 'unknown'
+    },
+    service: 'LifeLink - A Blood Donation Community',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
+// Database connection readiness check for API routes
+app.use('/api', (req, res, next) => {
+  if (req.path === '/health' || req.path === '/v1/health') {
+    return next();
+  }
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      success: false,
+      message: 'Database connection is pending or unavailable. Please ensure MongoDB Atlas Network Access has 0.0.0.0/0 allowed and credentials in MONGODB_URI are correct.'
+    });
+  }
+  next();
+});
+
 // API Routers (Mount both /api/v1 and /api for full versioning and backward compatibility)
 const apiRouter = express.Router();
 apiRouter.use('/auth', authRoutes);
@@ -78,25 +125,6 @@ apiRouter.use('/complaints', complaintRoutes);
 
 app.use('/api/v1', apiRouter);
 app.use('/api', apiRouter);
-
-// Health Check Endpoint
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'healthy',
-    service: 'LifeLink - A Blood Donation Community',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  });
-});
-app.get('/api/v1/health', (req, res) => {
-  res.json({
-    status: 'healthy',
-    service: 'LifeLink - A Blood Donation Community',
-    version: '1.1.0',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  });
-});
 
 // Authenticate socket connections if token provided in handshake
 io.use((socket, next) => {
