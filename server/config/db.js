@@ -11,9 +11,9 @@ async function connectDB() {
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/lifelink_pro';
 
   try {
-    console.log(`🔌 Attempting MongoDB connection to: ${uri}`);
+    console.log(`🔌 Attempting MongoDB connection to: ${uri.replace(/\/\/([^:]+):([^@]+)@/, '//$1:****@')}`);
     await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 2000
+      serverSelectionTimeoutMS: process.env.MONGODB_URI ? 15000 : 3000
     });
     console.log(`✅ Connected to MongoDB at: ${uri}`);
   } catch (primaryError) {
