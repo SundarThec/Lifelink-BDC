@@ -1,0 +1,135 @@
+/* MapLibre GL JS Local Stylesheet */
+.maplibregl-map {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-x pan-y;
+  font-family: inherit;
+  background-color: #f1f5f9;
+}
+
+.maplibregl-canvas-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.maplibregl-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.maplibregl-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  cursor: pointer;
+  z-index: 10;
+  transform: translate(-50%, -100%);
+}
+
+.maplibregl-popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.maplibregl-popup-content {
+  position: relative;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  padding: 12px 14px;
+  pointer-events: auto;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #1e293b;
+  max-width: 260px;
+  border: 1px solid #e2e8f0;
+}
+
+.maplibregl-popup-close-button {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: transparent;
+  font-size: 16px;
+  line-height: 1;
+  color: #64748b;
+  padding: 2px 6px;
+}
+
+.maplibregl-popup-close-button:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.maplibregl-popup-tip {
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  border-top-color: #ffffff;
+  align-self: center;
+  margin-top: -1px;
+}
+
+.maplibregl-ctrl-top-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+}
+
+.maplibregl-ctrl-group {
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.maplibregl-ctrl-group button {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: #334155;
+  transition: background-color 0.15s ease;
+}
+
+.maplibregl-ctrl-group button:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+/* Custom Marker Pin Styles */
+.custom-maplibre-marker {
+  cursor: grab;
+  transition: transform 0.1s ease;
+  user-select: none;
+}
+
+.custom-maplibre-marker:active {
+  cursor: grabbing;
+}

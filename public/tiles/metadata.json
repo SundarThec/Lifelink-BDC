@@ -1,0 +1,11 @@
+{
+  "id": "lifelink-offline-metro",
+  "name": "LifeLink Bengaluru Operational Region Offline Tiles",
+  "version": "1.0.0",
+  "format": "png",
+  "bounds": [76.5, 12.0, 78.5, 14.0],
+  "center": [77.5946, 12.9716, 11],
+  "minzoom": 0,
+  "maxzoom": 18,
+  "description": "Pre-downloaded raster tile set covering Bengaluru metro and surrounding 100 km radius"
+}

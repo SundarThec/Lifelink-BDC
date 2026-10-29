@@ -1,0 +1,10 @@
+node_modules/
+uploads/documents/*
+!uploads/documents/.gitkeep
+uploads/avatars/*
+!uploads/avatars/.gitkeep
+data/backups/
+.env
+.vscode/
+npm-debug.log*
+.DS_Store

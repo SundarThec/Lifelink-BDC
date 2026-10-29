@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LifeLink – A Centralized Blood Donation Community Platform connecting donors and recipients instantly with accurate geospatial matching.">
+  <title>LifeLink | A Blood Donation Community</title>
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- MapLibre GL JS Local Offline CSS -->
+  <link rel="stylesheet" href="/vendor/maplibre-gl/maplibre-gl.css">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Application Stylesheets -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/print.css" media="print">
+</head>
+<body>
+  <!-- ================= TOP HEADER / NAVBAR ================= -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-area" id="brandLogoBtn" role="button" tabindex="0">
+        <img src="/images/lifelink-logo.png" alt="LifeLink Logo" class="brand-logo" onerror="this.style.display='none'">
+        <div class="brand-title-wrap">
+          <span class="brand-name">Life<span class="brand-accent">Link</span></span>
+          <span class="brand-tagline">Blood Donation Community</span>
+        </div>
+      </div>
+
+      <!-- Navigation for Authenticated Users -->
+      <nav class="main-nav" id="mainNav">
+        <button class="nav-item active" data-view="dashboard">
+          <i class="fa-solid fa-house-medical"></i> <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="find-donor">
+          <i class="fa-solid fa-magnifying-glass-location"></i> <span>Find Donor</span>
+        </button>
+        <button class="nav-item" data-view="requests">
+          <i class="fa-solid fa-hand-holding-droplet"></i> <span>Requests</span>
+        </button>
+        <button class="nav-item" data-view="donor-map">
+          <i class="fa-solid fa-map-location-dot"></i> <span>Donor Map</span>
+        </button>
+        <button class="nav-item" data-view="chat" id="navChatBtn">
+          <i class="fa-solid fa-comments"></i> <span>Chat</span>
+          <span class="badge-counter hidden" id="chatBadge">0</span>
+        </button>
+        <button class="nav-item" data-view="notifications" id="navNotifBtn">
+          <i class="fa-solid fa-bell"></i> <span>Alerts</span>
+          <span class="badge-counter hidden" id="notifBadge">0</span>
+        </button>
+        <button class="nav-item user-only hidden" id="openComplaintModalBtn">
+          <i class="fa-solid fa-headset"></i> <span>Report / Help</span>
+        </button>
+        <button class="nav-item admin-only hidden" data-view="admin" id="navAdminBtn">
+          <i class="fa-solid fa-shield-halved"></i> <span>Admin</span>
+        </button>
+      </nav>
+
+      <!-- User Profile / Auth Area -->
+      <div class="header-actions">
+        <button class="btn btn-emergency pulse" id="headerEmergencyBtn">
+          <i class="fa-solid fa-plus"></i> <span>Request Blood</span>
+        </button>
+
+        <!-- Unauthenticated Buttons -->
+        <div class="auth-buttons" id="authButtons">
+          <button class="btn btn-outline" id="loginModalBtn">Login</button>
+          <button class="btn btn-primary" id="registerModalBtn">Register</button>
+        </div>
+
+        <!-- Authenticated User Menu Dropdown -->
+        <div class="user-menu-wrap hidden" id="userMenuWrap">
+          <div class="user-avatar-btn" id="userMenuBtn" role="button" tabindex="0">
+            <div class="avatar-circle" id="headerAvatar">U</div>
+            <div class="user-meta-header">
+              <span class="user-display-name" id="headerUserName">User</span>
+              <span class="user-blood-badge" id="headerBloodGroup">O+</span>
+            </div>
+            <i class="fa-solid fa-chevron-down caret-icon"></i>
+          </div>
+
+          <div class="dropdown-panel hidden" id="userDropdown">
+            <div class="dropdown-header">
+              <strong id="dropdownFullName">User Full Name</strong>
+              <small id="dropdownEmail">user@lifelink.org</small>
+            </div>
+            <div class="availability-toggle-wrap">
+              <span class="toggle-label">Ready to Donate:</span>
+              <label class="switch">
+                <input type="checkbox" id="headerAvailabilityToggle" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <hr class="dropdown-divider">
+            <button class="dropdown-item" data-view="profile">
+              <i class="fa-solid fa-user-circle"></i> My Profile & History
+            </button>
+            <button class="dropdown-item" data-view="donations">
+              <i class="fa-solid fa-certificate"></i> My Certificates
+            </button>
+            <button class="dropdown-item text-danger" id="logoutBtn">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN SPA DYNAMIC VIEW CONTAINER ================= -->
+  <main class="app-main">
+
+    <!-- ================= VIEW 1: HERO / INTRO (Unauthenticated) ================= -->
+    <section class="view-panel" id="view-intro">
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <i class="fa-solid fa-heart-pulse"></i> Centralized Emergency Network
+          </div>
+          <h1 class="hero-title">FIND BLOOD. SAVE LIVES. CONNECT INSTANTLY.</h1>
+          <p class="hero-subtitle">
+            LifeLink is a centralized blood donation community connecting patients, hospitals, and eligible donors within accurate geographic radius. Real-time notifications, strict medical compatibility, and authenticated coordination.
+          </p>
+          <div class="hero-action-buttons">
+            <button class="btn btn-primary btn-lg" id="heroRegisterBtn">
+              <i class="fa-solid fa-user-plus"></i> Join as Blood Donor
+            </button>
+            <button class="btn btn-emergency btn-lg" id="heroRequestBtn">
+              <i class="fa-solid fa-hand-holding-medical"></i> Post Emergency Request
+            </button>
+          </div>
+          <div class="hero-stats-banner">
+            <div class="stat-pill"><i class="fa-solid fa-bullseye"></i> Dual-Constraint Geospatial Matching</div>
+            <div class="stat-pill"><i class="fa-solid fa-shield-virus"></i> Confidential Medical Records</div>
+            <div class="stat-pill"><i class="fa-solid fa-clock"></i> Immediate Email & Push Alerts</div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-card-sample">
+            <div class="sample-header">
+              <span class="live-pill"><span class="dot"></span> Live Coordination</span>
+              <span class="urgency-pill critical">CRITICAL</span>
+            </div>
+            <div class="sample-body">
+              <div class="sample-blood-group">B+</div>
+              <div class="sample-info">
+                <h4>Arun Kumar (Age 42)</h4>
+                <p><i class="fa-solid fa-hospital"></i> Manipal Hospital, Bengaluru</p>
+                <p><i class="fa-solid fa-location-arrow"></i> ~4.2 km away &bull; 2 Units Needed</p>
+              </div>
+            </div>
+            <div class="sample-footer">
+              <span class="eligible-tag"><i class="fa-solid fa-check"></i> Compatible with B+, O-, O+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 2: DASHBOARD (Authenticated) ================= -->
+    <section class="view-panel hidden" id="view-dashboard">
+      <div class="dashboard-header-bar">
+        <div>
+          <h2 class="section-title">Emergency Coordination Center</h2>
+          <p class="section-subtitle">Real-time blood requirements prioritized for your blood group and registered location.</p>
+        </div>
+        <button class="btn btn-emergency" id="dashNewRequestBtn">
+          <i class="fa-solid fa-plus"></i> New Emergency Request
+        </button>
+      </div>
+
+      <!-- Quick Metrics Grid -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon bg-red"><i class="fa-solid fa-heart-crack"></i></div>
+          <div class="metric-info">
+            <span class="metric-number" id="dashTotalRequests">0</span>
+            <span class="metric-label">Active Emergencies</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon bg-emerald"><i class="fa-solid fa-users-line"></i></div>
+          <div class="metric-info">
+            <span class="metric-number" id="dashNearbyDonors">0</span>
+            <span class="metric-label">Nearby Donors in Range</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon bg-amber"><i class="fa-solid fa-certificate"></i></div>
+          <div class="metric-info">
+            <span class="metric-number" id="dashMyDonations">0</span>
+            <span class="metric-label">My Donations</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon bg-blue"><i class="fa-solid fa-shield-heart"></i></div>
+          <div class="metric-info">
+            <span class="metric-number" id="dashLivesSaved">0</span>
+            <span class="metric-label">Estimated Lives Saved</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 1: Priority / Compatible Requests for You (Section 14) -->
+      <div class="dashboard-section">
+        <div class="section-badge-header">
+          <div class="badge-title">
+            <span class="badge-icon-wrap"><i class="fa-solid fa-star"></i></span>
+            <h3>Priority / Compatible Requests for You</h3>
+          </div>
+          <span class="badge-count" id="priorityRequestsCount">0</span>
+        </div>
+        <p class="section-hint">Requests matching your blood compatibility criteria and located strictly within your emergency radius.</p>
+        <div class="requests-grid" id="priorityRequestsContainer">
+          <div class="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading prioritized emergencies...</div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: All Open Community Blood Requests -->
+      <div class="dashboard-section mt-40">
+        <div class="section-badge-header">
+          <div class="badge-title">
+            <span class="badge-icon-wrap neutral"><i class="fa-solid fa-bullhorn"></i></span>
+            <h3>Community Blood Requests</h3>
+          </div>
+          <span class="badge-count neutral" id="communityRequestsCount">0</span>
+        </div>
+        <p class="section-hint">Other active requests across the region that may require universal donors or secondary coordination.</p>
+        <div class="requests-grid" id="communityRequestsContainer">
+          <div class="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading community requests...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 3: FIND DONOR (Section 16 & 17) ================= -->
+    <section class="view-panel hidden" id="view-find-donor">
+      <div class="panel-header">
+        <h2 class="section-title">Find Blood Donors</h2>
+        <p class="section-subtitle">Search registered donors by geographic location, circular radius, blood compatibility, and live availability.</p>
+      </div>
+
+      <!-- Advanced Filter Toolbar -->
+      <div class="filter-card">
+        <!-- Primary Search Bar: Donor Name, @Username, or Email Address -->
+        <div class="donor-search-header-box">
+          <div class="search-input-wrap">
+            <i class="fa-solid fa-magnifying-glass search-leading-icon" aria-hidden="true"></i>
+            <input type="text" id="donorSearchQuery" placeholder="Search by donor name, username, or email" autocomplete="off" aria-label="Search by donor name, username, or email">
+            <button type="button" class="btn-clear-search hidden" id="clearDonorSearchQueryBtn" title="Clear search text" aria-label="Clear search text">&times;</button>
+          </div>
+        </div>
+
+        <div class="filter-grid">
+          <!-- Location Search with live Geocoding suggestions -->
+          <div class="filter-group location-autocomplete-wrap">
+            <label for="donorSearchLocation"><i class="fa-solid fa-location-dot"></i> City / Locality / Address</label>
+            <div class="input-with-icon">
+              <input type="text" id="donorSearchLocation" placeholder="Enter city, locality, or address" autocomplete="off">
+              <button class="btn-input-action" id="useCurrentLocationBtn" title="Use current GPS location">
+                <i class="fa-solid fa-crosshairs"></i>
+              </button>
+            </div>
+            <div class="autocomplete-suggestions hidden" id="donorLocationSuggestions"></div>
+          </div>
+
+          <!-- Blood Group -->
+          <div class="filter-group">
+            <label for="donorFilterBloodGroup"><i class="fa-solid fa-droplet"></i> Blood Group</label>
+            <select id="donorFilterBloodGroup">
+              <option value="">All Blood Groups</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+          </div>
+
+          <!-- Radius Slider -->
+          <div class="filter-group">
+            <div class="label-with-val">
+              <label for="donorRadiusSlider"><i class="fa-solid fa-circle-dot"></i> Search Radius</label>
+              <span class="range-val" id="donorRadiusVal">25 km</span>
+            </div>
+            <input type="range" id="donorRadiusSlider" min="5" max="100" step="5" value="25">
+            <label class="checkbox-label" style="margin-top: 4px; font-size: 0.78rem;">
+              <input type="checkbox" id="donorNoRadiusLimit">
+              <span>No Radius Limit (All Locations)</span>
+            </label>
+          </div>
+
+          <!-- Checkbox Filters -->
+          <div class="filter-group toggles-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="filterAvailableOnly" checked>
+              <span>Available to Donate</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="filterOnlineOnly">
+              <span>Online Donors Only</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="filterCompatibleOnly">
+              <span>Only Compatible With Me</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-actions-bar">
+          <div class="filter-status-left">
+            <span class="results-count-text" id="donorsFoundCount">Searching donors...</span>
+            <span class="active-center-pill" id="activeCenterPill" title="Current search center">
+              <i class="fa-solid fa-location-crosshairs"></i> <span id="activeCenterLabel">Registered Location</span>
+              <button type="button" class="btn-pill-reset" id="resetCenterPillBtn" title="Reset to your home location">&times;</button>
+            </span>
+          </div>
+          <div class="filter-actions-right">
+            <div class="view-mode-toggle-group">
+              <button type="button" class="btn-toggle-mode active" id="findDonorViewListBtn" title="List Cards View">
+                <i class="fa-solid fa-table-cells-large"></i> Cards
+              </button>
+              <button type="button" class="btn-toggle-mode" id="findDonorViewSplitBtn" title="Interactive Map + Cards Split View">
+                <i class="fa-solid fa-map-location-dot"></i> Split Map
+              </button>
+            </div>
+            <button class="btn btn-outline" id="resetDonorFiltersBtn" type="button" title="Clear all search filters">
+              <i class="fa-solid fa-rotate-left"></i> Clear Filters
+            </button>
+            <button class="btn btn-primary" id="applyDonorFilterBtn" type="button">
+              <i class="fa-solid fa-filter"></i> Apply Filters
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Donors Split Layout / Container -->
+      <div class="find-donor-layout" id="findDonorLayout">
+        <div class="find-donor-map-pane hidden" id="findDonorMapPane">
+          <div class="map-pane-header">
+            <span><i class="fa-solid fa-map-pin"></i> Interactive Location Map</span>
+            <small class="map-hint-text">Click anywhere on the map to set search center</small>
+          </div>
+          <div id="findDonorMiniMap" class="split-map-container"></div>
+        </div>
+
+        <!-- Donors Cards Results Container -->
+        <div class="donors-grid" id="donorsContainer">
+          <div class="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> Searching eligible donors...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 4: BLOOD REQUESTS LIST / MANAGEMENT ================= -->
+    <section class="view-panel hidden" id="view-requests">
+      <div class="panel-header flex-between">
+        <div>
+          <h2 class="section-title">Emergency Blood Requests Feed</h2>
+          <p class="section-subtitle">Real-time open blood requests posted by hospitals and patients.</p>
+        </div>
+        <button class="btn btn-emergency" id="requestsNewBtn">
+          <i class="fa-solid fa-plus"></i> Create Blood Request
+        </button>
+      </div>
+
+      <!-- Request Filter Tabs -->
+      <div class="tab-pills" role="tablist" aria-label="Filter Emergency Requests by Status">
+        <button type="button" class="tab-pill active" data-req-status="open" role="tab" aria-selected="true" tabindex="0">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>All Open Requests</span>
+        </button>
+        <button type="button" class="tab-pill" data-req-status="accepted" role="tab" aria-selected="false" tabindex="-1">
+          <i class="fa-solid fa-user-check"></i>
+          <span>In Progress / Accepted</span>
+        </button>
+        <button type="button" class="tab-pill" data-req-status="fulfilled" role="tab" aria-selected="false" tabindex="-1">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Fulfilled</span>
+        </button>
+      </div>
+
+      <div class="requests-grid" id="allRequestsFeedContainer">
+        <div class="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> Fetching emergency requests...</div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 5: DONOR MAP (Section 18) ================= -->
+    <section class="view-panel hidden" id="view-donor-map">
+      <div class="panel-header">
+        <h2 class="section-title">Geographic Donor Map</h2>
+        <p class="section-subtitle">Visual circle radius mapping of donors centered around your verified coordinates.</p>
+      </div>
+
+      <div class="map-controls-card">
+        <div class="map-controls-row">
+          <!-- Location Entrance with Autocomplete & GPS -->
+          <div class="map-control-item location-autocomplete-wrap flex-grow">
+            <label for="mapLocationInput"><i class="fa-solid fa-location-dot"></i> Enter Location / City:</label>
+            <div class="input-with-icon">
+              <input type="text" id="mapLocationInput" placeholder="Enter city, locality, or address" autocomplete="off">
+              <button class="btn-input-action" id="mapUseGpsBtn" title="Use current GPS location">
+                <i class="fa-solid fa-crosshairs"></i>
+              </button>
+            </div>
+            <div class="autocomplete-suggestions hidden" id="mapLocationSuggestions"></div>
+          </div>
+
+          <!-- Search by Name / Username / Email -->
+          <div class="map-control-item flex-grow">
+            <label for="mapSearchInput"><i class="fa-solid fa-magnifying-glass"></i> Search Donor:</label>
+            <input type="text" id="mapSearchInput" placeholder="Search by name, username, or email">
+          </div>
+
+          <!-- Radius Range -->
+          <div class="map-control-item">
+            <label for="mapRadiusSelect"><i class="fa-solid fa-circle-notch"></i> Radius:</label>
+            <select id="mapRadiusSelect">
+              <option value="5">5 km</option>
+              <option value="10">10 km</option>
+              <option value="15" selected>15 km</option>
+              <option value="25">25 km</option>
+              <option value="50">50 km</option>
+              <option value="100">100 km</option>
+              <option value="0">Any Distance</option>
+            </select>
+          </div>
+
+          <!-- Blood Group -->
+          <div class="map-control-item">
+            <label for="mapBloodSelect"><i class="fa-solid fa-droplet"></i> Blood:</label>
+            <select id="mapBloodSelect">
+              <option value="">All Groups</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+          </div>
+
+          <!-- Availability Filter -->
+          <div class="map-control-item">
+            <label for="mapAvailabilitySelect"><i class="fa-solid fa-heart-pulse"></i> Availability:</label>
+            <select id="mapAvailabilitySelect">
+              <option value="all">All Donors</option>
+              <option value="available" selected>Available to Donate</option>
+              <option value="unavailable">In Cooldown / Unavailable</option>
+            </select>
+          </div>
+
+          <!-- Online Checkbox -->
+          <div class="map-control-item checkbox-item">
+            <label class="checkbox-label" for="mapOnlineOnly">
+              <input type="checkbox" id="mapOnlineOnly">
+              <span>Online Only</span>
+            </label>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="map-control-actions">
+            <button class="btn btn-outline btn-sm" id="resetMapFiltersBtn" type="button" title="Reset all map filters">
+              <i class="fa-solid fa-rotate-left"></i> Reset
+            </button>
+            <button class="btn btn-primary btn-sm" id="applyMapFilterBtn" type="button">
+              <i class="fa-solid fa-filter"></i> Apply
+            </button>
+          </div>
+        </div>
+
+        <!-- Secondary Info & Legend Bar -->
+        <div class="map-subbar">
+          <div class="map-interactive-hint">
+            <i class="fa-solid fa-hand-pointer text-primary"></i> <span><strong>Interactive:</strong> Click anywhere on the map to set search center and broadcast circle.</span>
+            <span class="active-map-center-text" id="mapActiveCenterText"><i class="fa-solid fa-crosshairs"></i> Center: Bangalore</span>
+          </div>
+          <div class="map-legend">
+            <span class="legend-item"><span class="legend-pin blue"></span> Search Center</span>
+            <span class="legend-item"><span class="legend-pin green"></span> Available Donor</span>
+            <span class="legend-item"><span class="legend-pin gray"></span> Cooldown / Unavailable</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaflet Map Container -->
+      <div class="leaflet-map-wrapper">
+        <div id="donorMap" class="full-map"></div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 6: NOTIFICATIONS SECTION (Section 15) ================= -->
+    <section class="view-panel hidden" id="view-notifications">
+      <div class="panel-header flex-between" style="flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 class="section-title">Emergency Notifications & Alerts</h2>
+          <p class="section-subtitle">Real-time alerts for targeted blood requirements, pledges, and system notices.</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <span class="email-diag-pill" id="emailStatusPill"><i class="fa-solid fa-circle-notch fa-spin"></i> Checking Email Service...</span>
+          <button class="btn btn-outline btn-sm" id="testEmailBtn" title="Send a test notification email to your registered address">
+            <i class="fa-solid fa-paper-plane"></i> Send Test Email
+          </button>
+          <button class="btn btn-outline btn-sm" id="markAllNotifsReadBtn">
+            <i class="fa-solid fa-check-double"></i> Mark All as Read
+          </button>
+        </div>
+      </div>
+
+      <div class="notifications-list" id="notificationsList">
+        <div class="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading alerts...</div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 7: COORDINATION CHAT (Section 24 & 25) ================= -->
+    <section class="view-panel hidden" id="view-chat">
+      <div class="chat-container">
+        <!-- Sidebar: Active Conversations -->
+        <aside class="chat-sidebar">
+          <div class="chat-sidebar-header">
+            <h3><i class="fa-solid fa-comments"></i> Active Coordination</h3>
+          </div>
+          <div class="conversations-list" id="conversationsList">
+            <div class="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading channels...</div>
+          </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <div class="chat-main-area" id="chatMainArea">
+          <div class="empty-chat-state" id="emptyChatState">
+            <i class="fa-solid fa-comment-medical fa-3x"></i>
+            <h3>Direct Coordination Room</h3>
+            <p>Select an accepted blood request from the left to coordinate hospital arrival, ward details, and emergency handover.</p>
+          </div>
+
+          <!-- Active Room UI -->
+          <div class="chat-active-ui hidden" id="chatActiveUi">
+            <div class="chat-header">
+              <div class="chat-request-meta">
+                <h4 id="chatPatientName">Patient Name</h4>
+                <span class="badge blood" id="chatBloodGroup">O+</span>
+                <span class="chat-hospital-text" id="chatHospitalName">Hospital Name</span>
+              </div>
+              <div class="chat-actions">
+                <button class="btn btn-outline btn-sm" id="chatViewRequestDetailsBtn">
+                  <i class="fa-solid fa-circle-info"></i> View Request
+                </button>
+              </div>
+            </div>
+
+            <!-- Messages Stream -->
+            <div class="messages-stream" id="messagesStream"></div>
+
+            <!-- Chat Input Box -->
+            <form class="chat-input-bar" id="chatMessageForm">
+              <input type="text" id="chatMessageInput" placeholder="Type a message..." autocomplete="off" required>
+              <button type="submit" class="btn btn-primary" id="sendMessageBtn">
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 8: USER PROFILE & HISTORY (Section 20, 21, 22) ================= -->
+    <section class="view-panel hidden" id="view-profile">
+      <div class="profile-layout">
+        <!-- Left: Profile Summary Card -->
+        <div class="profile-card">
+          <div class="profile-avatar-wrap">
+            <div class="avatar-large" id="profileAvatarLarge">U</div>
+            <label class="avatar-upload-btn" title="Change Profile Picture">
+              <i class="fa-solid fa-camera"></i>
+              <input type="file" id="avatarFileInput" accept="image/*" class="hidden">
+            </label>
+          </div>
+          <h3 class="profile-name" id="profileFullName">User Name</h3>
+          <span class="profile-username" id="profileUsername">@username</span>
+
+          <div class="profile-blood-pill" id="profileBloodPill">Blood Group: B+</div>
+
+          <div class="profile-status-box">
+            <div class="status-row">
+              <span>Donor Status:</span>
+              <span class="status-badge active" id="profileAvailabilityBadge">Available</span>
+            </div>
+            <div class="status-row">
+              <span>Recovery Cooldown:</span>
+              <span id="profileCooldownText">Eligible Now</span>
+            </div>
+          </div>
+
+          <div class="profile-stats-row">
+            <div class="p-stat">
+              <span class="p-num" id="profileDonationsCount">0</span>
+              <span class="p-lbl">Donations</span>
+            </div>
+            <div class="p-stat">
+              <span class="p-num" id="profileRequestsCount">0</span>
+              <span class="p-lbl">Requests</span>
+            </div>
+            <div class="p-stat">
+              <span class="p-num" id="profileLivesSaved">0</span>
+              <span class="p-lbl">Lives Saved</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Tabs for Personal Details, Donation History, and My Requests -->
+        <div class="profile-details-area">
+          <div class="profile-tabs">
+            <button class="profile-tab-btn active" data-ptab="tab-edit-profile">Edit Profile & Location</button>
+            <button class="profile-tab-btn" data-ptab="tab-donation-history">Donation History & Certificates</button>
+            <button class="profile-tab-btn" data-ptab="tab-request-history">My Blood Requests</button>
+          </div>
+
+          <!-- Tab 1: Edit Profile -->
+          <div class="profile-tab-content" id="tab-edit-profile">
+            <form id="editProfileForm" class="form-grid">
+              <div class="form-field">
+                <label for="editName">Full Name</label>
+                <input type="text" id="editName" required>
+              </div>
+              <div class="form-field">
+                <label for="editPhone">Mobile Number</label>
+                <input type="tel" id="editPhone" required>
+              </div>
+              <div class="form-field">
+                <label for="editAge">Age (Years)</label>
+                <input type="number" id="editAge" min="18" max="70" required>
+              </div>
+              <div class="form-field">
+                <label for="editCity">City</label>
+                <input type="text" id="editCity">
+              </div>
+              <div class="form-field full-width location-autocomplete-wrap">
+                <label for="editAddress">Registered Address / Locality *</label>
+                <div class="input-with-icon">
+                  <input type="text" id="editAddress" placeholder="Enter address or locality" autocomplete="off" required>
+                  <button type="button" class="btn-input-action" id="editPinAddressBtn" title="Locate on map"><i class="fa-solid fa-map-pin"></i></button>
+                </div>
+                <div class="autocomplete-suggestions hidden" id="editAddressSuggestions"></div>
+              </div>
+              <!-- Embedded Interactive Pin Map -->
+              <div class="form-field full-width">
+                <label><i class="fa-solid fa-map-location"></i> Confirm Exact Location on Map (Drag marker or click map):</label>
+                <div id="profileMap" class="mini-map"></div>
+                <input type="hidden" id="editCoordinates">
+                <div class="map-location-meta">
+                  <small class="text-muted" id="editCoordsLabel">Selected Coordinates: [77.6033, 12.9756]</small>
+                  <span class="location-status-badge verified" id="editLocationBadge"><i class="fa-solid fa-circle-check"></i> Location Set</span>
+                </div>
+              </div>
+              <div class="form-field full-width">
+                <label for="editMedicalNotes">Medical Eligibility Notes / Chronic Conditions</label>
+                <textarea id="editMedicalNotes" rows="2" placeholder="Relevant health details or donation preferences"></textarea>
+              </div>
+              <div class="form-field full-width form-actions">
+                <button type="submit" class="btn btn-primary" id="saveProfileBtn">
+                  <i class="fa-solid fa-save"></i> Save Profile Changes
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Tab 2: Donation History & Certificates -->
+          <div class="profile-tab-content hidden" id="tab-donation-history">
+            <div class="donations-history-list" id="donationsHistoryList">
+              <div class="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading donation records...</div>
+            </div>
+          </div>
+
+          <!-- Tab 3: My Requests History -->
+          <div class="profile-tab-content hidden" id="tab-request-history">
+            <div class="requests-history-list" id="myRequestsHistoryList">
+              <div class="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading your requests...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 9: ADMIN MANAGEMENT PORTAL (Section 34) ================= -->
+    <section class="view-panel hidden" id="view-admin">
+      <div class="panel-header flex-between">
+        <div>
+          <h2 class="section-title"><i class="fa-solid fa-shield-halved"></i> Administrator Management Console</h2>
+          <p class="section-subtitle">System metrics, community user moderation, emergency oversight, and report generation.</p>
+        </div>
+        <div class="admin-export-group">
+          <button class="btn btn-outline btn-sm" id="exportUsersCsvBtn">
+            <i class="fa-solid fa-file-csv"></i> Export Users CSV
+          </button>
+          <button class="btn btn-outline btn-sm" id="exportRequestsCsvBtn">
+            <i class="fa-solid fa-file-csv"></i> Export Requests CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin KPI Dashboard Cards -->
+      <div class="metrics-grid admin-metrics">
+        <div class="metric-card">
+          <div class="metric-info">
+            <span class="metric-number" id="adminTotalUsers">0</span>
+            <span class="metric-label">Registered Users</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-info">
+            <span class="metric-number" id="adminActiveDonors">0</span>
+            <span class="metric-label">Active Donors</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-info">
+            <span class="metric-number" id="adminTotalRequests">0</span>
+            <span class="metric-label">Total Blood Requests</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-info">
+            <span class="metric-number" id="adminFulfillmentRate">0%</span>
+            <span class="metric-label">Fulfillment Rate</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-info">
+            <span class="metric-number" id="adminLivesSaved">0</span>
+            <span class="metric-label">Lives Saved Count</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Sub Tabs: Users, Broadcast, Broadcast Log, Requests, Complaints, Audit Trail -->
+      <div class="admin-tabs mt-24">
+        <button class="admin-tab-btn active" data-atab="admin-users-tab"><i class="fa-solid fa-users"></i> User Management</button>
+        <button class="admin-tab-btn" data-atab="admin-broadcast-tab"><i class="fa-solid fa-bullhorn"></i> Broadcast Control</button>
+        <button class="admin-tab-btn" data-atab="admin-broadcast-logs-tab"><i class="fa-solid fa-clock-rotate-left"></i> Broadcast Log</button>
+        <button class="admin-tab-btn" data-atab="admin-requests-tab"><i class="fa-solid fa-hand-holding-droplet"></i> Request Oversight</button>
+        <button class="admin-tab-btn" data-atab="admin-complaints-tab"><i class="fa-solid fa-headset"></i> Complaints & Feedback</button>
+        <button class="admin-tab-btn" data-atab="admin-audit-tab"><i class="fa-solid fa-clipboard-list"></i> Audit Trail</button>
+      </div>
+
+      <!-- Admin Tab: User Management -->
+      <div class="admin-tab-panel" id="admin-users-tab">
+        <!-- User Search & Filter Toolbar -->
+        <div style="display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); align-items: center;">
+          <input type="text" id="adminUserSearch" placeholder="Search name, username, email..." style="flex: 2; min-width: 180px; padding: 7px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+          <input type="text" id="adminUserCity" placeholder="City / Locality" style="flex: 1; min-width: 130px; padding: 7px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+          
+          <select id="adminUserBloodGroup" style="padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+            <option value="">All Blood Groups</option>
+            <option value="A+">A+</option><option value="A-">A-</option>
+            <option value="B+">B+</option><option value="B-">B-</option>
+            <option value="AB+">AB+</option><option value="AB-">AB-</option>
+            <option value="O+">O+</option><option value="O-">O-</option>
+          </select>
+
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <input type="number" id="adminUserMinAge" placeholder="Min Age" min="18" max="70" style="width: 75px; padding: 7px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+            <span style="color: #94a3b8;">-</span>
+            <input type="number" id="adminUserMaxAge" placeholder="Max Age" min="18" max="70" style="width: 75px; padding: 7px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+          </div>
+
+          <select id="adminUserAvailability" style="padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+            <option value="">All Availability</option>
+            <option value="true">Available Only</option>
+            <option value="false">Unavailable</option>
+          </select>
+
+          <select id="adminUserOnline" style="padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+            <option value="">All Presence</option>
+            <option value="true">Online</option>
+            <option value="false">Offline</option>
+          </select>
+
+          <select id="adminUserRole" style="padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+            <option value="">All Roles</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+
+          <select id="adminUserBlocked" style="padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+            <option value="">All Statuses</option>
+            <option value="false">Active Only</option>
+            <option value="true">Blocked Only</option>
+          </select>
+
+          <button type="button" class="btn btn-outline btn-sm" id="adminUserResetFiltersBtn" title="Reset all filters" style="padding: 7px 10px;">
+            <i class="fa-solid fa-rotate-left"></i> Reset
+          </button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table" id="adminUsersTable">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Contact</th>
+                <th>Blood Group</th>
+                <th>Availability</th>
+                <th>Status</th>
+                <th>Verified</th>
+                <th>Donations</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="8" class="text-center">Loading users...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- User Pagination Controls -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding: 8px 12px; background: #ffffff; border-radius: 8px; border: 1px solid var(--border-color);">
+          <span style="font-size: 13px; color: #64748b;" id="adminUserCountDisplay">Showing 0 users</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button type="button" class="btn btn-outline btn-sm" id="adminUserPrevPage" disabled>
+              <i class="fa-solid fa-chevron-left"></i> Previous
+            </button>
+            <span style="font-size: 13px; font-weight: 600;" id="adminUserPageInfo">Page 1 of 1</span>
+            <button type="button" class="btn btn-outline btn-sm" id="adminUserNextPage" disabled>
+              Next <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Tab: Broadcast Control -->
+      <div class="admin-tab-panel hidden" id="admin-broadcast-tab">
+        <div style="background: #ffffff; padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border-color); max-width: 780px;">
+          <h3 style="margin-bottom: 4px;"><i class="fa-solid fa-bullhorn text-primary"></i> Administrative Broadcast Notification</h3>
+          <p class="text-muted" style="font-size: 13px; margin-bottom: 1.25rem;">
+            Compose and dispatch targeted system-wide announcements, donation drives, or health advisories directly to donors and recipients.
+          </p>
+          <form id="adminBroadcastForm" class="form-grid">
+            <div class="form-field full-width">
+              <label for="broadcastTitle">Broadcast Title *</label>
+              <input type="text" id="broadcastTitle" placeholder="Alert or announcement title" required>
+            </div>
+            <div class="form-field full-width">
+              <label for="broadcastMessage">Announcement Message *</label>
+              <textarea id="broadcastMessage" rows="3" placeholder="Enter message text to be delivered in-app and via live alert..." required></textarea>
+            </div>
+            <div class="form-field full-width">
+              <label>Target Blood Groups (Leave all unchecked to target all groups):</label>
+              <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 6px; background: #f8fafc; padding: 10px; border-radius: 6px;">
+                <label><input type="checkbox" class="broadcast-bg-check" value="A+"> A+</label>
+                <label><input type="checkbox" class="broadcast-bg-check" value="A-"> A-</label>
+                <label><input type="checkbox" class="broadcast-bg-check" value="B+"> B+</label>
+                <label><input type="checkbox" class="broadcast-bg-check" value="B-"> B-</label>
+                <label><input type="checkbox" class="broadcast-bg-check" value="AB+"> AB+</label>
+                <label><input type="checkbox" class="broadcast-bg-check" value="AB-"> AB-</label>
+                <label><input type="checkbox" class="broadcast-bg-check" value="O+"> O+</label>
+                <label><input type="checkbox" class="broadcast-bg-check" value="O-"> O-</label>
+              </div>
+            </div>
+            <div class="form-field full-width">
+              <label class="checkbox-label">
+                <input type="checkbox" id="broadcastAvailableOnly">
+                <span>Send only to currently <strong>Available Donors</strong></span>
+              </label>
+            </div>
+            <div class="form-field full-width" style="border-top: 1px dashed var(--border-color); padding-top: 12px;">
+              <label><i class="fa-solid fa-location-crosshairs"></i> Optional Geographic Filter (Leave empty to target entire community):</label>
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 6px;">
+                <input type="number" step="0.0001" id="broadcastCenterLat" placeholder="Center Latitude">
+                <input type="number" step="0.0001" id="broadcastCenterLng" placeholder="Center Longitude">
+                <input type="number" id="broadcastRadiusKm" min="1" max="150" placeholder="Radius (km)">
+              </div>
+            </div>
+            <div class="form-field full-width" style="margin-top: 12px;">
+              <button type="submit" class="btn btn-primary" id="sendBroadcastBtn">
+                <i class="fa-solid fa-paper-plane"></i> Dispatch Admin Broadcast
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Admin Tab: Broadcast Log History -->
+      <div class="admin-tab-panel hidden" id="admin-broadcast-logs-tab">
+        <div class="table-responsive">
+          <table class="data-table" id="adminBroadcastLogsTable">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Title</th>
+                <th>Message Content</th>
+                <th>Target Criteria</th>
+                <th>Recipients</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="5" class="text-center">Loading broadcast logs...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Admin Tab: Requests Oversight -->
+      <div class="admin-tab-panel hidden" id="admin-requests-tab">
+        <div class="table-responsive">
+          <table class="data-table" id="adminRequestsTable">
+            <thead>
+              <tr>
+                <th>Patient</th>
+                <th>Blood Group</th>
+                <th>Units</th>
+                <th>Hospital</th>
+                <th>Urgency</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="8" class="text-center">Loading requests...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Admin Tab: Complaints -->
+      <div class="admin-tab-panel hidden" id="admin-complaints-tab">
+        <div class="table-responsive">
+          <table class="data-table" id="adminComplaintsTable">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>User</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="6" class="text-center">Loading complaints...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Admin Tab: Audit Trail Logs -->
+      <div class="admin-tab-panel hidden" id="admin-audit-tab">
+        <!-- Audit Filter Toolbar -->
+        <div style="display: flex; gap: 10px; margin-bottom: 1rem; flex-wrap: wrap; background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); align-items: center;">
+          <select id="auditActionFilter" style="padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+            <option value="">All Actions</option>
+            <option value="USER_BLOCKED">USER_BLOCKED</option>
+            <option value="USER_UNBLOCKED">USER_UNBLOCKED</option>
+            <option value="USER_VERIFIED">USER_VERIFIED</option>
+            <option value="USER_UNVERIFIED">USER_UNVERIFIED</option>
+            <option value="USER_ROLE_CHANGED">USER_ROLE_CHANGED</option>
+            <option value="USER_DELETED">USER_DELETED</option>
+            <option value="USER_STATUS_TOGGLED">USER_STATUS_TOGGLED</option>
+            <option value="REQUEST_FLAGGED">REQUEST_FLAGGED</option>
+            <option value="REQUEST_UNFLAGGED">REQUEST_UNFLAGGED</option>
+            <option value="REQUEST_CANCELLED">REQUEST_CANCELLED</option>
+            <option value="COMPLAINT_RESOLVED">COMPLAINT_RESOLVED</option>
+            <option value="COMPLAINT_REJECTED">COMPLAINT_REJECTED</option>
+            <option value="ADMIN_BROADCAST_SENT">ADMIN_BROADCAST_SENT</option>
+            <option value="ADMIN_LOGIN_SUCCESS">ADMIN_LOGIN_SUCCESS</option>
+            <option value="ADMIN_LOGIN_FAILED">ADMIN_LOGIN_FAILED</option>
+            <option value="ADMIN_ACCESS_DENIED">ADMIN_ACCESS_DENIED</option>
+            <option value="ADMIN_SETUP">ADMIN_SETUP</option>
+          </select>
+          <select id="auditTargetFilter" style="padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+            <option value="">All Target Types</option>
+            <option value="User">User</option>
+            <option value="BloodRequest">BloodRequest</option>
+            <option value="Complaint">Complaint</option>
+            <option value="Broadcast">Broadcast</option>
+            <option value="System">System</option>
+          </select>
+          <input type="date" id="auditDateFilter" style="padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;" title="Filter by date">
+          <button type="button" class="btn btn-outline btn-sm" id="auditResetFilterBtn" style="padding: 7px 10px;">
+            <i class="fa-solid fa-rotate-left"></i> Reset
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="adminAuditLogsTable">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Administrator</th>
+                <th>Action</th>
+                <th>Target</th>
+                <th>Reason / Summary</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="5" class="text-center">Loading audit records...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. LOGIN MODAL -->
+  <div class="modal-backdrop hidden" id="loginModal">
+    <div class="modal-box">
+      <button class="modal-close-btn" id="closeLoginModal">&times;</button>
+      <div class="modal-header">
+        <h3 id="loginModalTitle">Login to LifeLink</h3>
+        <p id="loginModalSubtitle">Access your donor dashboard, active emergencies, and coordination chat.</p>
+      </div>
+
+      <!-- Two Distinguishable Login Options (Section 2) -->
+      <div class="login-role-selector" style="display: flex; gap: 8px; margin: 0.5rem 0 1.25rem 0; background: #f1f5f9; padding: 4px; border-radius: 8px;">
+        <button type="button" class="btn-login-tab active" id="tabUserLogin" style="flex: 1; padding: 8px 12px; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; background: #ffffff; color: var(--text-color); box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+          <i class="fa-solid fa-user"></i> User Login
+        </button>
+        <button type="button" class="btn-login-tab" id="tabAdminLogin" style="flex: 1; padding: 8px 12px; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; background: transparent; color: #64748b;">
+          <i class="fa-solid fa-shield-halved"></i> Admin Login
+        </button>
+      </div>
+
+      <input type="hidden" id="loginType" value="user">
+
+      <div id="adminLoginNotice" class="hidden" style="margin-bottom: 12px; padding: 10px; border-radius: 6px; background: #fff1f2; border: 1px solid #fecaca; font-size: 12px; color: #991b1b;">
+        <i class="fa-solid fa-triangle-exclamation"></i> <strong>Administrator Portal:</strong> Requires verified administrative credentials. Non-admin accounts will be rejected by the server.
+      </div>
+
+      <form id="loginForm" class="modal-form">
+        <div class="form-field">
+          <label for="loginEmail" id="loginEmailLabel"><i class="fa-solid fa-user"></i> Email or Username</label>
+          <input type="text" id="loginEmail" autocomplete="username" required>
+        </div>
+        <div class="form-field">
+          <label for="loginPassword"><i class="fa-solid fa-lock"></i> Password</label>
+          <input type="password" id="loginPassword" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="loginSubmitBtn">
+          <i class="fa-solid fa-right-to-bracket"></i> <span id="loginSubmitText">Login</span>
+        </button>
+      </form>
+      <div class="modal-footer-text" id="loginRegisterFooter">
+        Don't have an account yet? <a href="#" id="switchToRegisterLink">Register Now</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. REGISTRATION MODAL WITH INTERACTIVE PIN MAP (Section 5 & 6) -->
+  <div class="modal-backdrop hidden" id="registerModal">
+    <div class="modal-box modal-lg">
+      <button class="modal-close-btn" id="closeRegisterModal">&times;</button>
+      <div class="modal-header">
+        <h3>Create Your LifeLink Account</h3>
+        <p>Join as a verified blood donor and community member. Set your precise location pin for accurate emergency matching.</p>
+      </div>
+      <form id="registerForm" class="modal-form form-grid">
+        <div class="form-field">
+          <label for="regName">Full Name *</label>
+          <input type="text" id="regName" autocomplete="name" required>
+        </div>
+        <div class="form-field">
+          <label for="regUsername">Username * (lowercase, digits, underscores)</label>
+          <input type="text" id="regUsername" autocomplete="username" pattern="^[a-z0-9_]{3,30}$" required>
+        </div>
+        <div class="form-field">
+          <label for="regEmail">Email Address *</label>
+          <input type="email" id="regEmail" placeholder="name@example.com" autocomplete="email" required>
+        </div>
+        <div class="form-field">
+          <label for="regPhone">Mobile Number *</label>
+          <input type="tel" id="regPhone" placeholder="+91 9876543210" autocomplete="tel" required>
+        </div>
+        <div class="form-field">
+          <label for="regPassword">Password * (min 6 characters)</label>
+          <input type="password" id="regPassword" minlength="6" autocomplete="new-password" required>
+        </div>
+        <div class="form-field">
+          <label for="regAge">Age * (18 - 70)</label>
+          <input type="number" id="regAge" min="18" max="70" required>
+        </div>
+        <div class="form-field">
+          <label for="regBloodGroup">Blood Group *</label>
+          <select id="regBloodGroup" required>
+            <option value="" disabled selected>Select Blood Group</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="regCity">City</label>
+          <input type="text" id="regCity">
+        </div>
+
+        <!-- Location Search Autocomplete & Pin Map -->
+        <div class="form-field full-width location-autocomplete-wrap">
+          <label for="regAddress">Address / Neighborhood *</label>
+          <div class="input-with-icon">
+            <input type="text" id="regAddress" placeholder="Enter neighborhood or address to locate on map" autocomplete="off" required>
+            <button type="button" class="btn-input-action" id="regDetectLocationBtn" title="Detect GPS location"><i class="fa-solid fa-location-crosshairs"></i></button>
+          </div>
+          <div class="autocomplete-suggestions hidden" id="regAddressSuggestions"></div>
+        </div>
+
+        <!-- Interactive Map Picker -->
+        <div class="form-field full-width">
+          <label><i class="fa-solid fa-map-pin"></i> Confirm Pin Location on Map (Drag marker or click map):</label>
+          <div id="registerMap" class="mini-map"></div>
+          <input type="hidden" id="regCoordinates" value="[77.6412, 12.9719]" required>
+          <div class="map-location-meta">
+            <small class="text-muted" id="regCoordsLabel">Selected Coordinates: [77.6412, 12.9719]</small>
+            <span class="location-status-badge verified" id="regLocationBadge"><i class="fa-solid fa-circle-check"></i> Location Set</span>
+          </div>
+        </div>
+
+        <div class="form-field full-width">
+          <label class="checkbox-label">
+            <input type="checkbox" id="regAvailable" checked>
+            <span>Mark me as <strong>Available to Donate</strong> immediately</span>
+          </label>
+        </div>
+
+        <div class="form-field full-width">
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="regSubmitBtn">
+            <i class="fa-solid fa-user-check"></i> Register Account
+          </button>
+        </div>
+      </form>
+      <div class="modal-footer-text">
+        Already registered? <a href="#" id="switchToLoginLink">Login here</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. CREATE EMERGENCY BLOOD REQUEST MODAL (Section 8 & 9) -->
+  <div class="modal-backdrop hidden" id="createRequestModal">
+    <div class="modal-box modal-lg">
+      <button class="modal-close-btn" id="closeRequestModal">&times;</button>
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-triangle-exclamation text-emergency"></i> Post Emergency Blood Request</h3>
+        <p>Broadcasts targeted emergency alerts immediately to compatible donors within your specified circular radius.</p>
+      </div>
+      <form id="createRequestForm" class="modal-form form-grid" enctype="multipart/form-data">
+        <div class="form-field">
+          <label for="reqPatientName">Patient Full Name *</label>
+          <input type="text" id="reqPatientName" name="patientName" required>
+        </div>
+        <div class="form-field">
+          <label for="reqPatientAge">Patient Age *</label>
+          <input type="number" id="reqPatientAge" name="patientAge" min="0" max="120" required>
+        </div>
+        <div class="form-field">
+          <label for="reqBloodGroup">Required Blood Group *</label>
+          <select id="reqBloodGroup" name="requiredBloodGroup" required>
+            <option value="" disabled selected>Select Blood Group</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="reqUnits">Units Required *</label>
+          <input type="number" id="reqUnits" name="unitsRequired" min="1" max="20" value="1" required>
+        </div>
+        <div class="form-field">
+          <label for="reqUrgency">Urgency Level *</label>
+          <select id="reqUrgency" name="urgency" required>
+            <option value="Normal">Normal (Routine procedure / within 48h)</option>
+            <option value="Urgent" selected>Urgent (Within 24 hours)</option>
+            <option value="Critical">Critical (Immediate emergency / ICU)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="reqRadius">Search Broadcast Radius *</label>
+          <select id="reqRadius" name="searchRadiusKm" required>
+            <option value="5">5 km Radius</option>
+            <option value="10">10 km Radius</option>
+            <option value="15" selected>15 km Radius (Recommended)</option>
+            <option value="25">25 km Radius</option>
+            <option value="50">50 km Radius</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="reqHospitalName">Hospital Name *</label>
+          <input type="text" id="reqHospitalName" name="hospitalName" required>
+        </div>
+        <div class="form-field">
+          <label for="reqContactPhone">Contact Mobile Number *</label>
+          <input type="tel" id="reqContactPhone" name="contactPhone" placeholder="+91 9876543210" required>
+        </div>
+
+        <!-- Hospital Location & Pin Picker -->
+        <div class="form-field full-width location-autocomplete-wrap">
+          <label for="reqHospitalAddress">Hospital Address / Location *</label>
+          <div class="input-with-icon">
+            <input type="text" id="reqHospitalAddress" name="hospitalAddress" placeholder="Enter hospital name, address, or locality" autocomplete="off" required>
+            <button type="button" class="btn-input-action" id="reqPinHospitalBtn" title="Pin hospital location on map"><i class="fa-solid fa-hospital-user"></i></button>
+          </div>
+          <div class="autocomplete-suggestions hidden" id="reqAddressSuggestions"></div>
+        </div>
+
+        <div class="form-field full-width">
+          <label><i class="fa-solid fa-map-pin"></i> Confirm Hospital Coordinates on Map (Drag marker or click map):</label>
+          <div id="requestMap" class="mini-map"></div>
+          <input type="hidden" id="reqCoordinates" name="coordinates" value="" required>
+          <div class="map-location-meta">
+            <small class="text-muted" id="reqCoordsLabel">No location selected yet. Enter hospital address or click map.</small>
+            <span class="location-status-badge waiting" id="reqLocationBadge"><i class="fa-solid fa-location-crosshairs"></i> Waiting for address input</span>
+          </div>
+        </div>
+
+        <div class="form-field full-width">
+          <label for="reqMedicalCondition">Clinical Notes / Condition</label>
+          <textarea id="reqMedicalCondition" name="medicalCondition" rows="2" placeholder="Relevant clinical notes or medical conditions"></textarea>
+        </div>
+
+        <!-- Medical Documents Upload (Section 9) -->
+        <div class="form-field full-width">
+          <label for="reqDocuments"><i class="fa-solid fa-file-medical"></i> Attach Supporting Medical Documents (PDF, JPG, PNG - Max 5MB)</label>
+          <input type="file" id="reqDocuments" name="medicalDocuments" multiple accept=".pdf,image/jpeg,image/png">
+          <small class="text-muted">Confidential medical records are protected and only accessible by authorized donors who accept this request.</small>
+        </div>
+
+        <div class="form-field full-width">
+          <button type="submit" class="btn btn-emergency btn-block btn-lg" id="submitRequestBtn">
+            <i class="fa-solid fa-paper-plane"></i> Broadcast Emergency Alert
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. REQUEST DETAILS MODAL -->
+  <div class="modal-backdrop hidden" id="requestDetailsModal">
+    <div class="modal-box modal-lg">
+      <button class="modal-close-btn" id="closeDetailsModal">&times;</button>
+      <div class="modal-header">
+        <div class="detail-header-flex">
+          <span class="blood-badge-lg" id="detailBloodGroup">B+</span>
+          <div>
+            <h3 id="detailPatientName">Patient Details</h3>
+            <span class="urgency-badge" id="detailUrgencyBadge">URGENT</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" id="requestDetailsBody">
+        <!-- Injected dynamically via JS -->
+      </div>
+      <div class="modal-footer" id="requestDetailsFooter">
+        <!-- Accept / coordinate buttons injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. DIGITAL CERTIFICATE OF APPRECIATION MODAL (Section 21) -->
+  <div class="modal-backdrop hidden" id="certificateModal">
+    <div class="modal-box modal-xl">
+      <button class="modal-close-btn" id="closeCertModal">&times;</button>
+      <div class="certificate-container" id="printableCertificate">
+        <div class="cert-border">
+          <div class="cert-inner">
+            <div class="cert-header">
+              <img src="/images/lifelink-logo.png" alt="LifeLink Logo" class="cert-logo" onerror="this.style.display='none'">
+              <h1 class="cert-title">CERTIFICATE OF APPRECIATION</h1>
+              <p class="cert-subtitle">Presented by LifeLink Blood Donation Community</p>
+            </div>
+            <div class="cert-body">
+              <p class="cert-text">This is proudly awarded to</p>
+              <h2 class="cert-donor-name" id="certDonorName">DONOR FULL NAME</h2>
+              <p class="cert-description">
+                in grateful recognition of your voluntary, lifesaving blood donation (<span id="certBloodGroup">B+</span>) on <strong id="certDate">September 14, 2026</strong> for patient care at <strong id="certHospital">Hospital Name</strong>. Your noble gesture contributes directly to saving precious lives.
+              </p>
+            </div>
+            <div class="cert-footer">
+              <div class="cert-id-block">
+                <span>Certificate ID:</span>
+                <strong id="certId">LL-2026-XXXXX</strong>
+                <small id="certVerificationCode">Security Verification: VERIFIED</small>
+              </div>
+              <div class="cert-signature-block">
+                <div class="cert-sig-line"></div>
+                <span>LifeLink Community Medical Board</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cert-action-bar">
+        <button class="btn btn-primary" id="printCertBtn">
+          <i class="fa-solid fa-print"></i> Print / Save as PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. COMPLAINT / REPORT MODAL -->
+  <div class="modal-backdrop hidden" id="complaintModal">
+    <div class="modal-box">
+      <button class="modal-close-btn" id="closeComplaintModal">&times;</button>
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-headset text-primary"></i> Submit Report / Inquiry</h3>
+        <p>Report suspicious activity, request assistance, or submit feedback to LifeLink administrators.</p>
+      </div>
+      <form id="complaintForm" class="modal-form">
+        <div class="form-field">
+          <label for="complaintSubject">Subject *</label>
+          <input type="text" id="complaintSubject" placeholder="Subject of issue or inquiry" required maxlength="120">
+        </div>
+        <div class="form-field">
+          <label for="complaintDescription">Description *</label>
+          <textarea id="complaintDescription" rows="4" placeholder="Describe the issue or inquiry in detail..." required maxlength="2000"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="complaintSubmitBtn">
+          <i class="fa-solid fa-paper-plane"></i> Submit Report
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. EMAIL NOTIFICATION PREVIEW MODAL -->
+  <div class="modal-backdrop hidden" id="emailPreviewModal">
+    <div class="modal-box" style="max-width: 680px; width: 95%;">
+      <button class="modal-close-btn" id="closeEmailPreviewModal">&times;</button>
+      <div class="modal-header">
+        <h3 id="emailPreviewModalTitle"><i class="fa-solid fa-envelope-open-text text-primary"></i> Email Notification Preview</h3>
+        <p id="emailPreviewModalSubtitle">Dispatched via LifeLink notification engine.</p>
+      </div>
+      <div id="emailPreviewMeta" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 15px; font-size: 13px;">
+        <div><strong>Delivery Status:</strong> <span id="emailPreviewStatus">Delivered</span></div>
+        <div id="emailPreviewEtherealRow" style="margin-top: 6px;"></div>
+      </div>
+      <div id="emailPreviewContent" style="border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; background: #ffffff; max-height: 480px; overflow-y: auto;">
+        <!-- Rendered Email HTML injected here -->
+      </div>
+      <div style="margin-top: 15px; text-align: right;">
+        <button class="btn btn-outline" id="closeEmailPreviewBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- MapLibre GL JS Local Offline Library -->
+  <script src="/vendor/maplibre-gl/maplibre-gl.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <!-- Application JavaScript Client Modules -->
+  <script src="/js/api.js"></script>
+  <script src="/js/geocoding.js"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/chat.js"></script>
+  <script src="/js/certificate.js"></script>
+  <script src="/js/admin.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

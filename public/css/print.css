@@ -1,0 +1,47 @@
+/* ==========================================================================
+   PRINT STYLESHEET - CERTIFICATES & REPORTS
+   ========================================================================== */
+
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt;
+  }
+
+  .app-header,
+  .main-nav,
+  .header-actions,
+  .btn,
+  .modal-close-btn,
+  .cert-action-bar,
+  .toast-container,
+  .modal-backdrop:not(#certificateModal) {
+    display: none !important;
+  }
+
+  .modal-backdrop#certificateModal {
+    position: static !important;
+    background: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .modal-box {
+    max-width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .certificate-container {
+    width: 100% !important;
+    padding: 0 !important;
+    page-break-inside: avoid;
+  }
+
+  .cert-border {
+    border: 3px solid #b91c1c !important;
+  }
+}

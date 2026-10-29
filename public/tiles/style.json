@@ -1,0 +1,31 @@
+{
+  "version": 8,
+  "name": "LifeLink Offline Local Style",
+  "sources": {
+    "local-tiles": {
+      "type": "raster",
+      "tiles": [
+        "/tiles/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256,
+      "maxzoom": 18,
+      "attribution": "LifeLink Offline Local Tiles"
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#f1f5f9"
+      }
+    },
+    {
+      "id": "local-tiles-layer",
+      "type": "raster",
+      "source": "local-tiles",
+      "minzoom": 0,
+      "maxzoom": 18
+    }
+  ]
+}

@@ -1,0 +1,769 @@
+{
+  "type": "FeatureCollection",
+  "name": "LifeLinkLocalGazetteer",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_manipal_hal",
+        "name": "Manipal Hospital HAL Airport Road",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560017",
+        "address": "98, HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560017",
+        "phone": "+91 80 2502 4444"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.6514, 12.9592]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_victoria",
+        "name": "Victoria Hospital",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560002",
+        "address": "Fort Rd, near City Market, New Tharagupet, Bengaluru, Karnataka 560002",
+        "phone": "+91 80 2670 1150"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5741, 12.9634]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_bowring",
+        "name": "Bowring and Lady Curzon Hospital",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560001",
+        "address": "Lady Curzon Rd, Tasker Town, Shivaji Nagar, Bengaluru, Karnataka 560001",
+        "phone": "+91 80 2559 1362"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.6047, 12.9814]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_fortis_bg",
+        "name": "Fortis Hospital Bannerghatta Road",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560076",
+        "address": "154/9, Bannerghatta Main Rd, Opposite IIM-B, Bilekahalli, Bengaluru, Karnataka 560076",
+        "phone": "+91 80 6621 4444"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5991, 12.8938]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_apollo_jayanagar",
+        "name": "Apollo Speciality Hospital Jayanagar",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560011",
+        "address": "21/2, 14th Cross Rd, 3rd Block, Jayanagar, Bengaluru, Karnataka 560011",
+        "phone": "+91 80 4612 4444"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5925, 12.9260]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_st_johns",
+        "name": "St. John's Medical College Hospital",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560034",
+        "address": "Sarjapur - Marathahalli Rd, John Nagar, Koramangala, Bengaluru, Karnataka 560034",
+        "phone": "+91 80 2206 5000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.6208, 12.9315]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_nimhans",
+        "name": "NIMHANS Hospital",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560029",
+        "address": "Hosur Rd, Lakkasandra, Wilson Garden, Bengaluru, Karnataka 560029",
+        "phone": "+91 80 2699 5000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5937, 12.9406]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_manipal_whitefield",
+        "name": "Manipal Hospital Whitefield",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560066",
+        "address": "143, 212-215, EPIP Zone, Whitefield, Bengaluru, Karnataka 560066",
+        "phone": "+91 80 2502 4444"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.7490, 12.9752]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_narayana_health",
+        "name": "Narayana Health City",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560099",
+        "address": "258/A, Bommasandra Industrial Area, Anekal Taluk, Bengaluru, Karnataka 560099",
+        "phone": "+91 80 7122 2222"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.6917, 12.8228]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_baptist",
+        "name": "Bangalore Baptist Hospital",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560024",
+        "address": "Bellary Rd, Vinayakanagar, Hebbal, Bengaluru, Karnataka 560024",
+        "phone": "+91 80 2202 4700"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5901, 13.0332]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_kc_general",
+        "name": "K.C. General Hospital",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560003",
+        "address": "5th Cross Rd, Malleshwaram, Bengaluru, Karnataka 560003",
+        "phone": "+91 80 2334 1771"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5703, 12.9984]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_ramaiah",
+        "name": "M.S. Ramaiah Memorial Hospital",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560054",
+        "address": "New BEL Rd, M S R Nagar, Gnanabharathi, Bengaluru, Karnataka 560054",
+        "phone": "+91 80 2360 8888"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5674, 13.0298]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_jayadeva",
+        "name": "Sri Jayadeva Institute of Cardiovascular Sciences",
+        "type": "hospital",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560069",
+        "address": "Bannerghatta Main Rd, 9th Block, Jayanagar, Bengaluru, Karnataka 560069",
+        "phone": "+91 80 2297 7400"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5980, 12.9180]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_indiranagar",
+        "name": "Indiranagar",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560038",
+        "address": "Indiranagar, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.6412, 12.9719]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_koramangala",
+        "name": "Koramangala",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560034",
+        "address": "Koramangala, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.6190, 12.9352]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_jayanagar",
+        "name": "Jayanagar",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560041",
+        "address": "Jayanagar, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5833, 12.9304]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_whitefield",
+        "name": "Whitefield",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560066",
+        "address": "Whitefield, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.7499, 12.9698]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_mgroad",
+        "name": "MG Road",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560001",
+        "address": "Mahatma Gandhi Road, Central Business District, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.6033, 12.9756]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_hebbal",
+        "name": "Hebbal",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560024",
+        "address": "Hebbal, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5912, 13.0358]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_hsr",
+        "name": "HSR Layout",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560102",
+        "address": "HSR Layout, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.6389, 12.9121]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_ecity",
+        "name": "Electronic City",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560100",
+        "address": "Electronic City, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.6649, 12.8452]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_malleshwaram",
+        "name": "Malleshwaram",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560003",
+        "address": "Malleshwaram, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5709, 13.0031]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_rajajinagar",
+        "name": "Rajajinagar",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560010",
+        "address": "Rajajinagar, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5539, 12.9915]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_btm",
+        "name": "BTM Layout",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560068",
+        "address": "BTM Layout, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.6101, 12.9166]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_marathahalli",
+        "name": "Marathahalli",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560037",
+        "address": "Marathahalli, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.7011, 12.9591]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_yelahanka",
+        "name": "Yelahanka",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560064",
+        "address": "Yelahanka, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5963, 13.1007]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_banashankari",
+        "name": "Banashankari",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560050",
+        "address": "Banashankari, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5574, 12.9152]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "loc_bellandur",
+        "name": "Bellandur",
+        "type": "locality",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560103",
+        "address": "Bellandur, Outer Ring Road, Bengaluru, Karnataka"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.6782, 12.9304]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "city_hosur",
+        "name": "Hosur",
+        "type": "city",
+        "city": "Hosur",
+        "district": "Krishnagiri",
+        "state": "Tamil Nadu",
+        "pincode": "635109",
+        "address": "Hosur, Tamil Nadu (~35 km from Bangalore)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.8253, 12.7409]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "city_tumkur",
+        "name": "Tumakuru (Tumkur)",
+        "type": "city",
+        "city": "Tumakuru",
+        "district": "Tumakuru",
+        "state": "Karnataka",
+        "pincode": "572101",
+        "address": "Tumakuru, Karnataka (~70 km from Bangalore)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.1009, 13.3409]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "city_kolar",
+        "name": "Kolar",
+        "type": "city",
+        "city": "Kolar",
+        "district": "Kolar",
+        "state": "Karnataka",
+        "pincode": "563101",
+        "address": "Kolar, Karnataka (~65 km from Bangalore)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [78.1291, 13.1378]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "city_ramangara",
+        "name": "Ramanagara",
+        "type": "city",
+        "city": "Ramanagara",
+        "district": "Ramanagara",
+        "state": "Karnataka",
+        "pincode": "562159",
+        "address": "Ramanagara, Karnataka (~48 km from Bangalore)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.2809, 12.7214]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "city_chikkaballapur",
+        "name": "Chikkaballapur",
+        "type": "city",
+        "city": "Chikkaballapur",
+        "district": "Chikkaballapur",
+        "state": "Karnataka",
+        "pincode": "562101",
+        "address": "Chikkaballapur, Karnataka (~58 km from Bangalore)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.7275, 13.4325]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "city_mandya",
+        "name": "Mandya",
+        "type": "city",
+        "city": "Mandya",
+        "district": "Mandya",
+        "state": "Karnataka",
+        "pincode": "571401",
+        "address": "Mandya, Karnataka (~95 km from Bangalore)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [76.8951, 12.5242]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "city_mysuru",
+        "name": "Mysuru (Mysore)",
+        "type": "city",
+        "city": "Mysuru",
+        "district": "Mysuru",
+        "state": "Karnataka",
+        "pincode": "570001",
+        "address": "Mysuru, Karnataka (~140 km from Bangalore)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [76.6552, 12.2958]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "metro_mumbai",
+        "name": "Mumbai",
+        "type": "city",
+        "city": "Mumbai",
+        "district": "Mumbai City",
+        "state": "Maharashtra",
+        "pincode": "400001",
+        "address": "Mumbai, Maharashtra"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.8777, 19.0760]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "metro_delhi",
+        "name": "New Delhi",
+        "type": "city",
+        "city": "New Delhi",
+        "district": "New Delhi",
+        "state": "Delhi",
+        "pincode": "110001",
+        "address": "New Delhi, Delhi NCR"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.2090, 28.6139]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "metro_chennai",
+        "name": "Chennai",
+        "type": "city",
+        "city": "Chennai",
+        "district": "Chennai",
+        "state": "Tamil Nadu",
+        "pincode": "600001",
+        "address": "Chennai, Tamil Nadu"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.2707, 13.0827]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "metro_hyderabad",
+        "name": "Hyderabad",
+        "type": "city",
+        "city": "Hyderabad",
+        "district": "Hyderabad",
+        "state": "Telangana",
+        "pincode": "500001",
+        "address": "Hyderabad, Telangana"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [78.4867, 17.3850]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "metro_kolkata",
+        "name": "Kolkata",
+        "type": "city",
+        "city": "Kolkata",
+        "district": "Kolkata",
+        "state": "West Bengal",
+        "pincode": "700001",
+        "address": "Kolkata, West Bengal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [88.3639, 22.5726]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "metro_pune",
+        "name": "Pune",
+        "type": "city",
+        "city": "Pune",
+        "district": "Pune",
+        "state": "Maharashtra",
+        "pincode": "411001",
+        "address": "Pune, Maharashtra"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [73.8567, 18.5204]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "city_virudhunagar",
+        "name": "Virudhunagar",
+        "type": "city",
+        "city": "Virudhunagar",
+        "district": "Virudhunagar",
+        "state": "Tamil Nadu",
+        "pincode": "626001",
+        "address": "Virudhunagar, Tamil Nadu, India"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.8632, 9.4926]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_virudhunagar_gh",
+        "name": "Government Hospital Virudhunagar",
+        "type": "hospital",
+        "city": "Virudhunagar",
+        "district": "Virudhunagar",
+        "state": "Tamil Nadu",
+        "pincode": "626001",
+        "address": "Government Hospital, Virudhunagar, Tamil Nadu, India",
+        "phone": "+91 4562 243 555"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.8645, 9.5850]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hosp_virudhunagar_gmch",
+        "name": "Virudhunagar Government Medical College Hospital",
+        "type": "hospital",
+        "city": "Virudhunagar",
+        "district": "Virudhunagar",
+        "state": "Tamil Nadu",
+        "pincode": "626002",
+        "address": "Government Medical College Hospital, Virudhunagar, Tamil Nadu 626002, India",
+        "phone": "+91 4562 299 100"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.9385, 9.5888]
+      }
+    }
+  ]
+}
